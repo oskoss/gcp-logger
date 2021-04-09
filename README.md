@@ -1,8 +1,8 @@
 # GCP Logger
 
 ### Basic Idea:
-1. Listen for messages
-1. Send messages to Google Cloud Logging
+1. Listen for messages (over HTTP)
+1. Send messages to Google Cloud Logging (via golang api)
 
 ### App Configuration
 
