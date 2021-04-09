@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcp-logger
+  namespace: gcp-logger
+spec:
+  selector:
+    matchLabels:
+      run: gcp-logger
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: gcp-logger
+    spec:
+      containers:
+      - image: oskoss/gcp-logger
+        imagePullPolicy: Always
+        name: gcp-logger
+        ports:
+        - containerPort: 8080
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

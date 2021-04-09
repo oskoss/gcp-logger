@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: gcp-logger
+  name: gcp-logger
+  namespace: gcp-logger
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: gcp-logger
+  sessionAffinity: None
+  type: ClusterIP # you can change this to LB for direct external cluster access

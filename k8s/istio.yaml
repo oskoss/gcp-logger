@@ -1,0 +1,39 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: gcp-logger
+  namespace: gcp-logger
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: certificate-credential # you probably will change this...must be the same as secret name containing cert for hostname
+    hosts:
+    - gcp-logger.example.com # you probably will change this...must be the same hostname name in the above cert
+    
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: gcp-logger
+  namespace: gcp-logger
+spec:
+  hosts:
+  - "gcp-logger.example.com" # you probably will change this...must be the same hostname name in the above cert
+  gateways:
+  - gcp-logger
+  http:
+  - match:
+    - port: 443
+    route:
+    - destination:
+        port:
+          number: 8080
+        host: gcp-logger
